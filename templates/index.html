@@ -1,0 +1,76 @@
+<html>
+<head>
+  <title>RealTimeWebCamera</title>
+</head>
+<body>
+  <h1>RealTimeWebCamera</h1>
+  <img id="bg" src="{{ url_for('video_feed') }}">  <!--img要素のsrc属性 = 画像ファイルのURLやパスを指定できる -->
+<script>
+function btn2_click(){
+  var str ;
+  var color2 = document.getElementsByName("color2");
+  var xhr = new XMLHttpRequest();
+
+  for (var i = 0; i < color2.length; i++){
+    if(color2[i].checked) //(color2[i].checked === true)と同じ
+      str = color2[i].value;
+  }
+
+  document.getElementById("sp2").innerHTML = str;
+  xhr.open("POST","/kind",true);
+  xhr.send(str);
+  console.log(str);
+}
+</script>
+<p>選択した色 <span id="sp2"></span></p>
+
+<input type="radio" name="color2" value="0" checked> NORMAL
+<input type="radio" name="color2" value="1" > ORG
+<input type="radio" name="color2" value="2" > SIFT<br />
+<input type="button" value="ボタン2" onclick="btn2_click()"/>
+
+
+<!--  jquery
+
+<p>選択する特徴量 <span id="sp2"></span></p>
+<input type="radio" name="kind" value="0" checked> NORMAL
+<input type="radio" name="kind" value="1" > ORG
+<input type="radio" name="kind" value="2" > SIFT
+<input type="radio" name="kind" value="3" > SURF<br />
+<input type="button" value="決定" onclick='btn()'/>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+<script>
+  var btn = function(){
+    var str = "";
+    var kind = document.getElementsByName("kind");
+
+    for (var i = 0; i < kind.length; i++){
+      if(kind[i].checked){ //(color2[i].checked === true)と同じ
+        kind_number = kind[i].value;
+        $.ajax({
+          type:'POST',
+          url:'/kind',
+          data:{'kind':kind_number},
+          error : function(XMLHttpRequest, textStatus, errorThrown) {
+            console.log("ajax通信に失敗しました");
+            console.log("XMLHttpRequest : " + XMLHttpRequest.status);
+            console.log("textStatus     : " + textStatus);
+            console.log("errorThrown    : " + errorThrown.message);
+          },
+         //ajax通信成功
+         success : function(response) {
+          console.log("ajax通信に成功しました");
+          console.log(response);
+          })
+        });
+      }
+    }
+  }
+</script>
+-->
+
+</body>
+</html>
